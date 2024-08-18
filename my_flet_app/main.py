@@ -91,7 +91,7 @@ def main(page: ft.Page):
                     )
                 ),
                 ft.Row(controls=[
-                    ft.Column(controls=[
+                    ft.Column(width=56, controls=[
                         ft.Text("3 /12"),
                         ft.Image(
                             src="assets/icon_water.svg",
@@ -150,7 +150,12 @@ def main(page: ft.Page):
                         ),
 
                     ]),
-                    ft.Column(controls=[])
+                    ft.Column(controls=[
+                        ft.Image(
+                            src="assets/cup-open.png",
+                            width=195
+                        ),
+                    ])
                 ]),
                 ft.Text("Welcome to my app!", size=30),
                 ft.Text("This is a simple scaffold example.", size=20),
