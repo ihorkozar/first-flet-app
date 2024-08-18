@@ -49,6 +49,13 @@ def main(page: ft.Page):
     button_row = ft.Row(
         [
             ft.OutlinedButton(
+                style=ft.ButtonStyle(
+                    shape=ft.RoundedRectangleBorder(radius=ft.BorderRadius(16, 16, 16, 16), ),
+                    side=ft.BorderSide(
+                        color="#318653",
+                        width=1
+                    ),
+                ),
                 height=60,
                 width=80,
                 content=ft.Image(
@@ -57,18 +64,26 @@ def main(page: ft.Page):
                 on_click=lambda e: print("Outlined Button 1 clicked"),
             ),
             ft.OutlinedButton(
+                style=ft.ButtonStyle(
+                    shape=ft.RoundedRectangleBorder(radius=ft.BorderRadius(16, 16, 16, 16), ),
+                    side=ft.BorderSide(
+                        color="#318653",
+                        width=1
+                    ),
+                ),
                 height=60,
                 width=80,
-
                 content=ft.Image(
                     src="assets/tea.svg",
                 ),
                 on_click=lambda e: print("Outlined Button 2 clicked"),
             ),
             ft.ElevatedButton(
-
-                bgcolor="#318653",
-                color="#FFF0E1",
+                style=ft.ButtonStyle(
+                    shape=ft.RoundedRectangleBorder(radius=ft.BorderRadius(16, 16, 16, 16),),
+                    bgcolor="#318653",
+                    color="#FFF0E1",
+                ),
                 height=60,
                 width=179,
                 content=ft.Row(
