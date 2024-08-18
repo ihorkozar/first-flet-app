@@ -1,32 +1,46 @@
 import flet as ft
-
-from my_flet_app.app_bar import create_app_bar
 from constants import *
+from app_bar import create_app_bar
 
 
 def main(page: ft.Page):
     # Set the title of the app
     page.title = "Flet Scaffold Example"
-    page.bgcolor = MAIN_COLOR
+    page.bgcolor = main_color
 
     # Create an AppBar
     app_bar = create_app_bar()
 
     progress_ring = ft.ProgressRing(
-        value=0.75,  # 75% completion
-        width=195,  # Width of the ring
-        height=195,  # Height of the ring
-        stroke_width=14,  # Thickness of the ring
-        color=PROGRESS_RING_COLOR,  # Color of
+        value=1,
+        width=195,
+        height=195,
+        stroke_width=14,
+        color=yellow,
+        bgcolor=silver,
     )
 
     # Create a Text widget to show the percentage
-    percentage_text = ft.Text(
-        "75%",
-        size=20,
-        weight=ft.FontWeight.BOLD,
-        color=ft.colors.BLUE
-    )
+    percentage_text = ft.Column(controls=[
+        ft.Text(
+            "75%",
+            size=20,
+            weight=ft.FontWeight.BOLD,
+            color=yellow
+        ),
+        ft.Text(
+            "75%",
+            size=20,
+            weight=ft.FontWeight.BOLD,
+            color=yellow
+        ),
+        ft.Text(
+            "75%",
+            size=20,
+            weight=ft.FontWeight.BOLD,
+            color=yellow
+        ),
+    ])
 
     # Stack the ProgressRing and the Text together
     circular_indicator = ft.Stack(
@@ -43,7 +57,7 @@ def main(page: ft.Page):
                 style=ft.ButtonStyle(
                     shape=ft.RoundedRectangleBorder(radius=ft.BorderRadius(16, 16, 16, 16), ),
                     side=ft.BorderSide(
-                        color=BUTTON_COLOR,
+                        color=button_color,
                         width=1
                     ),
                 ),
@@ -58,7 +72,7 @@ def main(page: ft.Page):
                 style=ft.ButtonStyle(
                     shape=ft.RoundedRectangleBorder(radius=ft.BorderRadius(16, 16, 16, 16), ),
                     side=ft.BorderSide(
-                        color=BUTTON_COLOR,
+                        color=button_color,
                         width=1
                     ),
                 ),
@@ -72,8 +86,8 @@ def main(page: ft.Page):
             ft.ElevatedButton(
                 style=ft.ButtonStyle(
                     shape=ft.RoundedRectangleBorder(radius=ft.BorderRadius(16, 16, 16, 16), ),
-                    bgcolor=BUTTON_COLOR,
-                    color=BUTTON_COLOR2,
+                    bgcolor=button_color,
+                    color=button_color2,
                 ),
                 height=60,
                 width=179,
@@ -90,7 +104,7 @@ def main(page: ft.Page):
             ),
         ],
         alignment=ft.MainAxisAlignment.CENTER,
-        spacing=20,  # Space between buttons
+        spacing=8,  # Space between buttons
     )
 
     top_widget = ft.Container(
@@ -105,57 +119,57 @@ def main(page: ft.Page):
                     controls=[
                         ft.Image(
                             src="assets/cup.svg",
-                            color=DIVIDER_COLOR,
+                            color=divider_color,
                             width=24
                         ),
-                        ft.Text("100 g", size=14, color=DIVIDER_COLOR)
+                        ft.Text("100 g", size=14, color=divider_color)
                         # Text next to the cup icon
                     ],
                 ),
-                ft.VerticalDivider(width=1, color=DIVIDER_COLOR),
+                ft.VerticalDivider(width=1, color=divider_color),
                 ft.Row(
                     width=80,
                     controls=[
                         ft.Image(
                             src="assets/leaf.svg",
-                            color=DIVIDER_COLOR,
+                            color=divider_color,
                             width=24
                         ),
-                        ft.Text("2 g", size=14, color=DIVIDER_COLOR)
+                        ft.Text("2 g", size=14, color=divider_color)
                         # Text next to the leaf icon
                     ],
                 ),
-                ft.VerticalDivider(width=1, color=DIVIDER_COLOR),
+                ft.VerticalDivider(width=1, color=divider_color),
                 ft.Row(
                     width=80,
                     controls=[
                         ft.Image(
                             src="assets/icon_water.svg",
-                            color=DIVIDER_COLOR,
+                            color=divider_color,
                             width=24
                         ),
-                        ft.Text("150 ml", size=14, color=DIVIDER_COLOR)
+                        ft.Text("150 ml", size=14, color=divider_color)
                         # Text next to the water icon
                     ],
                 ),
-                ft.VerticalDivider(width=1, color=DIVIDER_COLOR),
+                ft.VerticalDivider(width=1, color=divider_color),
                 ft.Row(
                     width=80,
                     controls=[
                         ft.Image(
                             src="assets/lid.svg",
-                            color=DIVIDER_COLOR,
+                            color=divider_color,
                             width=24
                         ),
-                        ft.Text("0 g", size=14, color=DIVIDER_COLOR)
+                        ft.Text("0 g", size=14, color=divider_color)
                         # Text next to the lid icon
                     ],
                 ),
             ]
         ),
         border=ft.Border(
-            top=ft.BorderSide(color=DIVIDER_COLOR, width=1),  # Set the top border
-            bottom=ft.BorderSide(color=DIVIDER_COLOR, width=1)  # Set the bottom border
+            top=ft.BorderSide(color=divider_color, width=1),  # Set the top border
+            bottom=ft.BorderSide(color=divider_color, width=1)  # Set the bottom border
         )
     )
 
@@ -236,6 +250,7 @@ def main(page: ft.Page):
                 top_widget,
                 ft.Container(height=45),
                 content_widget,
+                ft.Container(height=45),
                 button_row,
             ],
             expand=True,
