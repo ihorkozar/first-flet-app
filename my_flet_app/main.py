@@ -168,81 +168,83 @@ def main(page: ft.Page):
         )
     )
 
+    content_widget = ft.Row(controls=[
+        ft.Column(width=56, controls=[
+            ft.Text("3 /12"),
+            ft.Image(
+                src="assets/icon_water.svg",
+                color="#FAD074",
+                width=24
+            ),
+            ft.Image(
+                src="assets/icon_water.svg",
+                color="#FAD074",
+                width=24
+            ),
+            ft.Image(
+                src="assets/icon_water.svg",
+                color="#FAD074",
+                width=24
+            ),
+            ft.Image(
+                src="assets/icon_water.svg",
+                color="#FAD074",
+                width=24
+            ),
+            ft.Image(
+                src="assets/icon_water.svg",
+                color="#FAD074",
+                width=24
+            ),
+            ft.Image(
+                src="assets/icon_water.svg",
+                color="#FAD074",
+                width=24
+            ),
+            ft.Image(
+                src="assets/icon_water.svg",
+                color="#FAD074",
+                width=24
+            ),
+            ft.Image(
+                src="assets/icon_water.svg",
+                color="#FAD074",
+                width=24
+            ),
+            ft.Image(
+                src="assets/icon_water.svg",
+                color="#FAD074",
+                width=24
+            ),
+            ft.Image(
+                src="assets/icon_water.svg",
+                color="#FAD074",
+                width=24
+            ),
+            ft.Image(
+                src="assets/icon_water.svg",
+                color="#FAD074",
+                width=24
+            ),
+
+        ]),
+        ft.Column(controls=[
+            circular_indicator,
+            ft.Container(height=106),
+            ft.Image(
+                src="assets/cup-open.png",
+                width=195
+            ),
+        ])
+    ])
+
     # Create the Body (Content area)
     body = ft.Container(
         content=ft.ListView(
             [
                 top_widget,
                 ft.Container(height=45),
-                ft.Row(controls=[
-                    ft.Column(width=56, controls=[
-                        ft.Text("3 /12"),
-                        ft.Image(
-                            src="assets/icon_water.svg",
-                            color="#FAD074",
-                            width=24
-                        ),
-                        ft.Image(
-                            src="assets/icon_water.svg",
-                            color="#FAD074",
-                            width=24
-                        ),
-                        ft.Image(
-                            src="assets/icon_water.svg",
-                            color="#FAD074",
-                            width=24
-                        ),
-                        ft.Image(
-                            src="assets/icon_water.svg",
-                            color="#FAD074",
-                            width=24
-                        ),
-                        ft.Image(
-                            src="assets/icon_water.svg",
-                            color="#FAD074",
-                            width=24
-                        ),
-                        ft.Image(
-                            src="assets/icon_water.svg",
-                            color="#FAD074",
-                            width=24
-                        ),
-                        ft.Image(
-                            src="assets/icon_water.svg",
-                            color="#FAD074",
-                            width=24
-                        ),
-                        ft.Image(
-                            src="assets/icon_water.svg",
-                            color="#FAD074",
-                            width=24
-                        ),
-                        ft.Image(
-                            src="assets/icon_water.svg",
-                            color="#FAD074",
-                            width=24
-                        ),
-                        ft.Image(
-                            src="assets/icon_water.svg",
-                            color="#FAD074",
-                            width=24
-                        ),
-                        ft.Image(
-                            src="assets/icon_water.svg",
-                            color="#FAD074",
-                            width=24
-                        ),
-
-                    ]),
-                    ft.Column(controls=[
-                        circular_indicator,
-                        ft.Container(height=106),
-                        ft.Image(
-                            src="assets/cup-open.png",
-                            width=195
-                        ),
-                    ])
-                ]),
+                content_widget,
                 button_row,
             ],
             expand=True,
