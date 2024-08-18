@@ -1,7 +1,7 @@
 import threading
 
 import flet as ft
-from flet_core import MainAxisAlignment
+from flet_core import MainAxisAlignment, theme
 
 from constants import *
 from app_bar import create_app_bar
@@ -12,6 +12,12 @@ def main(page: ft.Page):
     # Set the title of the app
     page.title = "Flet Scaffold Example"
     page.bgcolor = main_color
+    page.fonts = {
+        "InknutAntiqua": "fonts/InknutAntiqua-Medium.ttf",
+    }
+
+    page.theme = ft.Theme(font_family="InknutAntiqua")
+
 
     # Create an AppBar
     app_bar = create_app_bar()
@@ -30,6 +36,7 @@ def main(page: ft.Page):
         size=20,
         weight=ft.FontWeight.BOLD,
         color=ft.colors.BLACK,
+        font_family="InknutAntiqua"
     )
 
     teapot_state_text = ft.Column(controls=[
