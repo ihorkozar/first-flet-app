@@ -21,6 +21,31 @@ def main(page: ft.Page):
         ],
     )
 
+    progress_ring = ft.ProgressRing(
+        value=0.75,  # 75% completion
+        width=195,  # Width of the ring
+        height=195,  # Height of the ring
+        stroke_width=14,  # Thickness of the ring
+        color=ft.colors.BLUE,  # Color of
+    )
+
+    # Create a Text widget to show the percentage
+    percentage_text = ft.Text(
+        "75%",
+        size=20,
+        weight=ft.FontWeight.BOLD,
+        color=ft.colors.BLUE
+    )
+
+    # Stack the ProgressRing and the Text together
+    circular_indicator = ft.Stack(
+        [
+            progress_ring,
+            ft.Container(content=percentage_text, alignment=ft.alignment.center)
+        ],
+        alignment=ft.alignment.center
+    )
+
     # Create the Body (Content area)
     body = ft.Container(
         content=ft.Column(
@@ -90,6 +115,7 @@ def main(page: ft.Page):
                         bottom=ft.BorderSide(color="#FAD074", width=1)  # Set the bottom border
                     )
                 ),
+                ft.Container(height=45),
                 ft.Row(controls=[
                     ft.Column(width=56, controls=[
                         ft.Text("3 /12"),
@@ -151,14 +177,14 @@ def main(page: ft.Page):
 
                     ]),
                     ft.Column(controls=[
+                        circular_indicator,
+                        ft.Container(height=106),
                         ft.Image(
                             src="assets/cup-open.png",
                             width=195
                         ),
                     ])
                 ]),
-                ft.Text("Welcome to my app!", size=30),
-                ft.Text("This is a simple scaffold example.", size=20),
             ],
             alignment=ft.MainAxisAlignment.START,
             expand=True,
