@@ -80,7 +80,7 @@ def main(page: ft.Page):
             ),
             ft.ElevatedButton(
                 style=ft.ButtonStyle(
-                    shape=ft.RoundedRectangleBorder(radius=ft.BorderRadius(16, 16, 16, 16),),
+                    shape=ft.RoundedRectangleBorder(radius=ft.BorderRadius(16, 16, 16, 16), ),
                     bgcolor="#318653",
                     color="#FFF0E1",
                 ),
@@ -102,75 +102,77 @@ def main(page: ft.Page):
         spacing=20,  # Space between buttons
     )
 
+    top_widget = ft.Container(
+        padding=ft.Padding(10, 16, 10, 16),
+        content=ft.Row(
+            height=56,
+            alignment=ft.MainAxisAlignment.CENTER,  # Center the row contents
+            spacing=10,
+            controls=[
+                ft.Row(
+                    width=80,
+                    controls=[
+                        ft.Image(
+                            src="assets/cup.svg",
+                            color="#FAD074",
+                            width=24
+                        ),
+                        ft.Text("100 g", size=14, color="#FAD074")
+                        # Text next to the cup icon
+                    ],
+                ),
+                ft.VerticalDivider(width=1, color="#FAD074"),
+                ft.Row(
+                    width=80,
+                    controls=[
+                        ft.Image(
+                            src="assets/leaf.svg",
+                            color="#FAD074",
+                            width=24
+                        ),
+                        ft.Text("2 g", size=14, color="#FAD074")
+                        # Text next to the leaf icon
+                    ],
+                ),
+                ft.VerticalDivider(width=1, color="#FAD074"),
+                ft.Row(
+                    width=80,
+                    controls=[
+                        ft.Image(
+                            src="assets/icon_water.svg",
+                            color="#FAD074",
+                            width=24
+                        ),
+                        ft.Text("150 ml", size=14, color="#FAD074")
+                        # Text next to the water icon
+                    ],
+                ),
+                ft.VerticalDivider(width=1, color="#FAD074"),
+                ft.Row(
+                    width=80,
+                    controls=[
+                        ft.Image(
+                            src="assets/lid.svg",
+                            color="#FAD074",
+                            width=24
+                        ),
+                        ft.Text("0 g", size=14, color="#FAD074")
+                        # Text next to the lid icon
+                    ],
+                ),
+            ]
+        ),
+        border=ft.Border(
+            top=ft.BorderSide(color="#FAD074", width=1),  # Set the top border
+            bottom=ft.BorderSide(color="#FAD074", width=1)  # Set the bottom border
+        )
+    )
+
     # Create the Body (Content area)
     body = ft.Container(
         content=ft.ListView(
             [
-                ft.Container(
-                    padding=ft.Padding(10, 16, 10, 16),
-                    content=ft.Row(
-                        height=56,
-                        alignment=ft.MainAxisAlignment.CENTER,  # Center the row contents
-                        spacing=10,
-                        controls=[
-                            ft.Row(
-                                width=80,
-                                controls=[
-                                    ft.Image(
-                                        src="assets/cup.svg",
-                                        color="#FAD074",
-                                        width=24
-                                    ),
-                                    ft.Text("100 g", size=14, color="#FAD074")
-                                    # Text next to the cup icon
-                                ],
-                            ),
-                            ft.VerticalDivider(width=1, color="#FAD074"),
-                            ft.Row(
-                                width=80,
-                                controls=[
-                                    ft.Image(
-                                        src="assets/leaf.svg",
-                                        color="#FAD074",
-                                        width=24
-                                    ),
-                                    ft.Text("2 g", size=14, color="#FAD074")
-                                    # Text next to the leaf icon
-                                ],
-                            ),
-                            ft.VerticalDivider(width=1, color="#FAD074"),
-                            ft.Row(
-                                width=80,
-                                controls=[
-                                    ft.Image(
-                                        src="assets/icon_water.svg",
-                                        color="#FAD074",
-                                        width=24
-                                    ),
-                                    ft.Text("150 ml", size=14, color="#FAD074")
-                                    # Text next to the water icon
-                                ],
-                            ),
-                            ft.VerticalDivider(width=1, color="#FAD074"),
-                            ft.Row(
-                                width=80,
-                                controls=[
-                                    ft.Image(
-                                        src="assets/lid.svg",
-                                        color="#FAD074",
-                                        width=24
-                                    ),
-                                    ft.Text("0 g", size=14, color="#FAD074")
-                                    # Text next to the lid icon
-                                ],
-                            ),
-                        ]
-                    ),
-                    border=ft.Border(
-                        top=ft.BorderSide(color="#FAD074", width=1),  # Set the top border
-                        bottom=ft.BorderSide(color="#FAD074", width=1)  # Set the bottom border
-                    )
-                ),
+                top_widget,
                 ft.Container(height=45),
                 ft.Row(controls=[
                     ft.Column(width=56, controls=[
