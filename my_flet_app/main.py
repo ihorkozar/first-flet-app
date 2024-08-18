@@ -1,32 +1,23 @@
 import flet as ft
 
+from my_flet_app.app_bar import create_app_bar
+from constants import *
+
 
 def main(page: ft.Page):
     # Set the title of the app
     page.title = "Flet Scaffold Example"
-    page.bgcolor = "#272726"
+    page.bgcolor = MAIN_COLOR
 
     # Create an AppBar
-    app_bar = ft.AppBar(
-        title=ft.Text("New set"),
-        center_title=True,
-        bgcolor="#272726",
-        leading=ft.Image(
-            src="assets/back.svg",
-        ),
-        actions=[
-            ft.Image(
-                src="assets/more.svg",
-            ),
-        ],
-    )
+    app_bar = create_app_bar()
 
     progress_ring = ft.ProgressRing(
         value=0.75,  # 75% completion
         width=195,  # Width of the ring
         height=195,  # Height of the ring
         stroke_width=14,  # Thickness of the ring
-        color=ft.colors.BLUE,  # Color of
+        color=PROGRESS_RING_COLOR,  # Color of
     )
 
     # Create a Text widget to show the percentage
@@ -52,7 +43,7 @@ def main(page: ft.Page):
                 style=ft.ButtonStyle(
                     shape=ft.RoundedRectangleBorder(radius=ft.BorderRadius(16, 16, 16, 16), ),
                     side=ft.BorderSide(
-                        color="#318653",
+                        color=BUTTON_COLOR,
                         width=1
                     ),
                 ),
@@ -67,7 +58,7 @@ def main(page: ft.Page):
                 style=ft.ButtonStyle(
                     shape=ft.RoundedRectangleBorder(radius=ft.BorderRadius(16, 16, 16, 16), ),
                     side=ft.BorderSide(
-                        color="#318653",
+                        color=BUTTON_COLOR,
                         width=1
                     ),
                 ),
@@ -81,8 +72,8 @@ def main(page: ft.Page):
             ft.ElevatedButton(
                 style=ft.ButtonStyle(
                     shape=ft.RoundedRectangleBorder(radius=ft.BorderRadius(16, 16, 16, 16), ),
-                    bgcolor="#318653",
-                    color="#FFF0E1",
+                    bgcolor=BUTTON_COLOR,
+                    color=BUTTON_COLOR2,
                 ),
                 height=60,
                 width=179,
@@ -114,57 +105,57 @@ def main(page: ft.Page):
                     controls=[
                         ft.Image(
                             src="assets/cup.svg",
-                            color="#FAD074",
+                            color=DIVIDER_COLOR,
                             width=24
                         ),
-                        ft.Text("100 g", size=14, color="#FAD074")
+                        ft.Text("100 g", size=14, color=DIVIDER_COLOR)
                         # Text next to the cup icon
                     ],
                 ),
-                ft.VerticalDivider(width=1, color="#FAD074"),
+                ft.VerticalDivider(width=1, color=DIVIDER_COLOR),
                 ft.Row(
                     width=80,
                     controls=[
                         ft.Image(
                             src="assets/leaf.svg",
-                            color="#FAD074",
+                            color=DIVIDER_COLOR,
                             width=24
                         ),
-                        ft.Text("2 g", size=14, color="#FAD074")
+                        ft.Text("2 g", size=14, color=DIVIDER_COLOR)
                         # Text next to the leaf icon
                     ],
                 ),
-                ft.VerticalDivider(width=1, color="#FAD074"),
+                ft.VerticalDivider(width=1, color=DIVIDER_COLOR),
                 ft.Row(
                     width=80,
                     controls=[
                         ft.Image(
                             src="assets/icon_water.svg",
-                            color="#FAD074",
+                            color=DIVIDER_COLOR,
                             width=24
                         ),
-                        ft.Text("150 ml", size=14, color="#FAD074")
+                        ft.Text("150 ml", size=14, color=DIVIDER_COLOR)
                         # Text next to the water icon
                     ],
                 ),
-                ft.VerticalDivider(width=1, color="#FAD074"),
+                ft.VerticalDivider(width=1, color=DIVIDER_COLOR),
                 ft.Row(
                     width=80,
                     controls=[
                         ft.Image(
                             src="assets/lid.svg",
-                            color="#FAD074",
+                            color=DIVIDER_COLOR,
                             width=24
                         ),
-                        ft.Text("0 g", size=14, color="#FAD074")
+                        ft.Text("0 g", size=14, color=DIVIDER_COLOR)
                         # Text next to the lid icon
                     ],
                 ),
             ]
         ),
         border=ft.Border(
-            top=ft.BorderSide(color="#FAD074", width=1),  # Set the top border
-            bottom=ft.BorderSide(color="#FAD074", width=1)  # Set the bottom border
+            top=ft.BorderSide(color=DIVIDER_COLOR, width=1),  # Set the top border
+            bottom=ft.BorderSide(color=DIVIDER_COLOR, width=1)  # Set the bottom border
         )
     )
 
