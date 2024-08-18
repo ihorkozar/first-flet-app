@@ -26,35 +26,138 @@ def main(page: ft.Page):
         content=ft.Column(
             [
                 ft.Container(
+                    padding=ft.Padding(10, 16, 10, 16),
                     content=ft.Row(
+                        height=56,
+                        alignment=ft.MainAxisAlignment.CENTER,  # Center the row contents
+                        spacing=10,
                         controls=[
-                            ft.Image(
-                                src="assets/cup.svg",
+                            ft.Row(
+                                width=80,
+                                controls=[
+                                    ft.Image(
+                                        src="assets/cup.svg",
+                                        color="#FAD074",
+                                        width=24
+                                    ),
+                                    ft.Text("100 g", size=14, color="#FAD074")
+                                    # Text next to the cup icon
+                                ],
                             ),
-                            ft.Image(
-                                src="assets/leaf.svg",
+                            ft.VerticalDivider(width=1, color="#FAD074"),
+                            ft.Row(
+                                width=80,
+                                controls=[
+                                    ft.Image(
+                                        src="assets/leaf.svg",
+                                        color="#FAD074",
+                                        width=24
+                                    ),
+                                    ft.Text("2 g", size=14, color="#FAD074")
+                                    # Text next to the leaf icon
+                                ],
                             ),
-                            ft.Image(
-                                src="assets/icon_water.svg",
-                                color="#FAD074"
+                            ft.VerticalDivider(width=1, color="#FAD074"),
+                            ft.Row(
+                                width=80,
+                                controls=[
+                                    ft.Image(
+                                        src="assets/icon_water.svg",
+                                        color="#FAD074",
+                                        width=24
+                                    ),
+                                    ft.Text("150 ml", size=14, color="#FAD074")
+                                    # Text next to the water icon
+                                ],
                             ),
-                            ft.Image(
-                                src="assets/lid.svg",
+                            ft.VerticalDivider(width=1, color="#FAD074"),
+                            ft.Row(
+                                width=80,
+                                controls=[
+                                    ft.Image(
+                                        src="assets/lid.svg",
+                                        color="#FAD074",
+                                        width=24
+                                    ),
+                                    ft.Text("0 g", size=14, color="#FAD074")
+                                    # Text next to the lid icon
+                                ],
                             ),
                         ]
                     ),
                     border=ft.Border(
-                        top=ft.BorderSide(color="yellow", width=2),  # Set the top border
-                        bottom=ft.BorderSide(color="yellow", width=2)  # Set the bottom border
+                        top=ft.BorderSide(color="#FAD074", width=1),  # Set the top border
+                        bottom=ft.BorderSide(color="#FAD074", width=1)  # Set the bottom border
                     )
                 ),
+                ft.Row(controls=[
+                    ft.Column(controls=[
+                        ft.Text("3 /12"),
+                        ft.Image(
+                            src="assets/icon_water.svg",
+                            color="#FAD074",
+                            width=24
+                        ),
+                        ft.Image(
+                            src="assets/icon_water.svg",
+                            color="#FAD074",
+                            width=24
+                        ),
+                        ft.Image(
+                            src="assets/icon_water.svg",
+                            color="#FAD074",
+                            width=24
+                        ),
+                        ft.Image(
+                            src="assets/icon_water.svg",
+                            color="#FAD074",
+                            width=24
+                        ),
+                        ft.Image(
+                            src="assets/icon_water.svg",
+                            color="#FAD074",
+                            width=24
+                        ),
+                        ft.Image(
+                            src="assets/icon_water.svg",
+                            color="#FAD074",
+                            width=24
+                        ),
+                        ft.Image(
+                            src="assets/icon_water.svg",
+                            color="#FAD074",
+                            width=24
+                        ),
+                        ft.Image(
+                            src="assets/icon_water.svg",
+                            color="#FAD074",
+                            width=24
+                        ),
+                        ft.Image(
+                            src="assets/icon_water.svg",
+                            color="#FAD074",
+                            width=24
+                        ),
+                        ft.Image(
+                            src="assets/icon_water.svg",
+                            color="#FAD074",
+                            width=24
+                        ),
+                        ft.Image(
+                            src="assets/icon_water.svg",
+                            color="#FAD074",
+                            width=24
+                        ),
+
+                    ]),
+                    ft.Column(controls=[])
+                ]),
                 ft.Text("Welcome to my app!", size=30),
                 ft.Text("This is a simple scaffold example.", size=20),
             ],
             alignment=ft.MainAxisAlignment.START,
             expand=True,
         ),
-        padding=20,
     )
 
     # Add AppBar, Body, and FAB to the page
