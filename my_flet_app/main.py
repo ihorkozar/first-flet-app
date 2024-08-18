@@ -46,9 +46,50 @@ def main(page: ft.Page):
         alignment=ft.alignment.center
     )
 
+    button_row = ft.Row(
+        [
+            ft.OutlinedButton(
+                height=60,
+                width=80,
+                content=ft.Image(
+                    src="assets/stop.svg",
+                ),
+                on_click=lambda e: print("Outlined Button 1 clicked"),
+            ),
+            ft.OutlinedButton(
+                height=60,
+                width=80,
+
+                content=ft.Image(
+                    src="assets/tea.svg",
+                ),
+                on_click=lambda e: print("Outlined Button 2 clicked"),
+            ),
+            ft.ElevatedButton(
+
+                bgcolor="#318653",
+                color="#FFF0E1",
+                height=60,
+                width=179,
+                content=ft.Row(
+                    width=80,
+                    alignment=ft.alignment.center,
+                    controls=[
+                        ft.Image(
+                            src="assets/update.svg",
+                        ),
+                        ft.Text("+5 sec")
+                    ]),
+                on_click=lambda e: print("Elevated Button clicked"),
+            ),
+        ],
+        alignment=ft.MainAxisAlignment.CENTER,
+        spacing=20,  # Space between buttons
+    )
+
     # Create the Body (Content area)
     body = ft.Container(
-        content=ft.Column(
+        content=ft.ListView(
             [
                 ft.Container(
                     padding=ft.Padding(10, 16, 10, 16),
@@ -185,10 +226,11 @@ def main(page: ft.Page):
                         ),
                     ])
                 ]),
+                button_row,
             ],
-            alignment=ft.MainAxisAlignment.START,
             expand=True,
         ),
+        expand=True,
     )
 
     # Add AppBar, Body, and FAB to the page
