@@ -1,6 +1,11 @@
+import threading
+
 import flet as ft
+from flet_core import MainAxisAlignment
+
 from constants import *
 from app_bar import create_app_bar
+from weights import start_timer
 
 
 def main(page: ft.Page):
@@ -20,33 +25,28 @@ def main(page: ft.Page):
         bgcolor=silver,
     )
 
-    # Create a Text widget to show the percentage
-    percentage_text = ft.Column(controls=[
+    remaining_time_text = ft.Text(
+        f"{total_time} s left",
+        size=20,
+        weight=ft.FontWeight.BOLD,
+        color=ft.colors.BLACK,
+    )
+
+    teapot_state_text = ft.Column(controls=[
+        remaining_time_text,
         ft.Text(
-            "75%",
+            "State: unknown",
             size=20,
             weight=ft.FontWeight.BOLD,
-            color=yellow
-        ),
-        ft.Text(
-            "75%",
-            size=20,
-            weight=ft.FontWeight.BOLD,
-            color=yellow
-        ),
-        ft.Text(
-            "75%",
-            size=20,
-            weight=ft.FontWeight.BOLD,
-            color=yellow
-        ),
+            color=ft.colors.BLACK,
+        )
     ])
 
     # Stack the ProgressRing and the Text together
     circular_indicator = ft.Stack(
         [
             progress_ring,
-            ft.Container(content=percentage_text, alignment=ft.alignment.center)
+            ft.Container(content=teapot_state_text, alignment=ft.alignment.center)
         ],
         alignment=ft.alignment.center
     )
@@ -173,8 +173,8 @@ def main(page: ft.Page):
         )
     )
 
-    content_widget = ft.Row(controls=[
-        ft.Column(width=56, controls=[
+    content_widget = ft.Row(width=380, alignment= ft.MainAxisAlignment.CENTER, vertical_alignment= ft.CrossAxisAlignment.START, controls=[
+        ft.Column(width=56,  controls=[
             ft.Text("3 /12"),
             ft.Image(
                 src="assets/icon_water.svg",
@@ -233,9 +233,10 @@ def main(page: ft.Page):
             ),
 
         ]),
+        ft.Container(width=26),
         ft.Column(controls=[
             circular_indicator,
-            ft.Container(height=106),
+            ft.Container(height=45),
             ft.Image(
                 src="assets/cup-open.png",
                 width=195
@@ -264,6 +265,7 @@ def main(page: ft.Page):
 
     # Update the page
     page.update()
+    threading.Thread(target=start_timer, args=(page, progress_ring, remaining_time_text, teapot_state_text)).start()
 
 
 # Run the Flet app

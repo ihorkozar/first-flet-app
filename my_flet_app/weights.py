@@ -1,5 +1,8 @@
 import random
 from constants import *
+import flet as ft
+import time
+import threading
 
 def noise(level=tolerance):
     def decorator(func):
@@ -76,16 +79,21 @@ def identify_teapot_state(weight):
 
     return "not_teapot"
 
-def start_timer(page, progress_ring, remaining_time_text):
+
+def start_timer(page, progress_ring, remaining_time_text, teapot_state_text):
     for remaining_time in range(total_time, 0, -1):
         time.sleep(1)  # Simulate waiting for 1 second
         weight = full_teapot()  # Simulate full teapot weight
         teapot_state = identify_teapot_state(weight)
-        page.update()
 
         # Update progress and text
         progress_value = remaining_time / total_time
-        page.controls[1].value = progress_value  # Update progress ring
+        progress_ring.value = progress_value  # Update progress ring
         remaining_time_text.value = f"{remaining_time} s left"  # Update remaining time text
-        page.controls[2].value = f"State: {', '.join(teapot_state)}"  # Update teapot state
-        page.update()  # Refresh the page
+
+        if isinstance(teapot_state, set):
+            teapot_state_text.value = f"State: {', '.join(teapot_state)}"  # Update teapot state
+        else:
+            teapot_state_text.value = "State: unknown"  # Handle unknown state
+
+        page.update()
