@@ -80,20 +80,16 @@ def identify_teapot_state(weight):
     return "not_teapot"
 
 
-def start_timer(page, progress_ring, remaining_time_text, teapot_state_text):
-    for remaining_time in range(total_time, 0, -1):
-        time.sleep(1)  # Simulate waiting for 1 second
-        weight = full_teapot()  # Simulate full teapot weight
-        teapot_state = identify_teapot_state(weight)
+def start(page, progress_ring, remaining_time_text, full_time_text):
+    total_steps = total_time * 100
+    step_duration = 1 / 100
 
-        # Update progress and text
-        progress_value = remaining_time / total_time
-        progress_ring.value = progress_value  # Update progress ring
-        remaining_time_text.value = f"{remaining_time} s left"  # Update remaining time text
+    for step in range(total_steps, 0, -1):
+        time.sleep(step_duration)
+        progress_value = step / total_steps
 
-        if isinstance(teapot_state, set):
-            teapot_state_text.value = f"State: {', '.join(teapot_state)}"  # Update teapot state
-        else:
-            teapot_state_text.value = "State: unknown"  # Handle unknown state
+        progress_ring.value = 1.0 - progress_value
+        remaining_time = int(step * step_duration)
+        remaining_time_text.value = f"{remaining_time} s left"
 
         page.update()
