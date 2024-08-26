@@ -1,7 +1,7 @@
 import flet as ft
 
-from my_flet_app.constants import silver, yellow
-from my_flet_app.utils import format_minutes
+from app_constants import silver, yellow, total_time
+from utils import format_minutes
 
 
 def circular_progress_widget():

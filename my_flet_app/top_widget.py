@@ -1,5 +1,5 @@
 import flet as ft
-from my_flet_app.constants import *
+from app_constants import *
 
 def top_widget():
     return ft.Container(

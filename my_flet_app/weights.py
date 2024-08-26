@@ -1,5 +1,5 @@
 import random
-from constants import *
+from app_constants import *
 import flet as ft
 import time
 import threading

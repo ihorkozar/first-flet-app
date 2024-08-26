@@ -1,13 +1,16 @@
 import flet as ft
-from constants import *
-from components.body_content_widget import body_content_widget
-from components.app_bar import create_app_bar
-from components.bottom_widget import bottom_widget
-from components.top_widget import top_widget
+
+from app_constants import *
+from body_content_widget import body_content
+from custom_app_bar import custom_app_bar
+from bottom_widget import bottom_widget
+from top_widget import top_widget
 
 def main(page: ft.Page):
-    # Set the title of the app
-    page.title = "Flet Scaffold Example"
+    page.title = "Flet Scaffold"
+    page.window.width = 500
+    page.window.height = 800
+    page.window_resizable = False
     page.bgcolor = main_color
     page.fonts = {
         "InknutAntiqua": "fonts/InknutAntiqua-Medium.ttf",
@@ -15,16 +18,14 @@ def main(page: ft.Page):
 
     page.theme = ft.Theme(font_family="InknutAntiqua")
 
-    # Create an AppBar
-    app_bar = create_app_bar()
+    app_bar = custom_app_bar()
 
-    # Create the Body (Content area)
     body = ft.Container(
         content=ft.ListView(
             [
-                top_widget,
+                top_widget(),
                 ft.Container(height=45),
-                body_content_widget,
+                body_content(),
                 ft.Container(height=45),
                 bottom_widget(
                     lambda e: print("x")),
@@ -34,13 +35,9 @@ def main(page: ft.Page):
         expand=True,
     )
 
-    # Add AppBar, Body, and FAB to the page
     page.appbar = app_bar
     page.add(body)
 
-    # Update the page
     page.update()
 
-
-# Run the Flet app
 ft.app(target=main)

@@ -1,3 +1,6 @@
+from my_flet_app.teapot_state import TeapotStatus
+
+
 class AppEvent:
     pass
 
@@ -16,3 +19,7 @@ class UpdateIterationTimeEvent(AppEvent):
 class UpdateCountEvent(AppEvent):
     def __init__(self, count: int):
         self.count = count
+
+class UpdateStatusEvent(AppEvent):
+    def __init__(self, teapot_status: TeapotStatus):
+        self.teapot_status = teapot_status
