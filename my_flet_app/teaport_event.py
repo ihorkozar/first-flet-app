@@ -1,4 +1,4 @@
-from my_flet_app.teapot_state import TeapotStatus
+from teapot_state import TeapotStatus
 
 
 class AppEvent:

@@ -8,7 +8,7 @@ from teapot_state import TeapotStatus, TeapotState
 
 class TeapotBloc:
     def __init__(self):
-        self._listeners: List[Callable[[TeapotState], None]] = []
+        self._listeners: list[Callable[[TeapotState], None]] = []
         self.state = TeapotState(count=0, full_time=total_time, current_time=0, iteration_time=0,
                                  teapot_status=TeapotStatus.NOT_TEAPOT)
 
@@ -95,10 +95,10 @@ class TeapotBloc:
 
         return TeapotStatus.NOT_TEAPOT
 
-    def add_listener(self, listener: Callable[[AppState], None]):
+    def add_listener(self, listener: Callable[[TeapotState], None]):
         self.listeners.append(listener)
 
-    def remove_listener(self, listener: Callable[[AppState], None]):
+    def remove_listener(self, listener: Callable[[TeapotState], None]):
         self.listeners.remove(listener)
 
     def emit(self):
