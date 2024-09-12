@@ -1,4 +1,7 @@
 from enum import Enum, auto
+from dataclasses import dataclass
+from typing import List
+
 
 class TeapotStatus(Enum):
     EMPTY = auto()
@@ -10,6 +13,8 @@ class TeapotStatus(Enum):
     TEAPOT_UNKNOWN = auto()
     NOT_TEAPOT = auto()
 
+
+@dataclass
 class TeapotState:
     def __init__(self, count: int, full_time: int, current_time: int, iteration_time: int, teapot_status: TeapotStatus):
         self.count = count
@@ -17,3 +22,8 @@ class TeapotState:
         self.current_time = current_time
         self.iteration_time = iteration_time
         self.teapot_status = teapot_status
+
+    def __eq__(self, other):
+        # Compare only the fields that matter
+        return (self.count, self.current_time, self.full_time, self.iteration_time, self.teapot_status) == (
+            other.count, other.current_time, other.full_time, other.iteration_time, other.teapot_status)

@@ -4,9 +4,10 @@ from app_constants import silver, yellow, total_time
 from utils import format_minutes
 
 
-def circular_progress_widget():
+def circular_progress_widget(current_time, iteration_time):
+    progress_value = current_time / iteration_time if iteration_time > 0 else 0
     progress_ring = ft.ProgressRing(
-        value=1,
+        value=progress_value,
         width=195,
         height=195,
         stroke_width=22,
@@ -15,7 +16,7 @@ def circular_progress_widget():
     )
 
     remaining_time_text = ft.Text(
-        format_minutes(0),
+        format_minutes(current_time),
         size=20,
         weight=ft.FontWeight.BOLD,
         color=ft.colors.BLACK,

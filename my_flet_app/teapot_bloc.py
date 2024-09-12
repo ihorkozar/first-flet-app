@@ -1,4 +1,5 @@
 import random
+from threading import Timer
 from typing import Callable, List
 
 from app_constants import *
@@ -8,8 +9,8 @@ from teapot_state import TeapotStatus, TeapotState
 
 class TeapotBloc:
     def __init__(self):
-        self._listeners: list[Callable[[TeapotState], None]] = []
-        self.state = TeapotState(count=0, full_time=total_time, current_time=0, iteration_time=0,
+        self.listeners: list[Callable[[TeapotState], None]] = []
+        self.state = TeapotState(count=0, full_time=0, current_time=0, iteration_time=tolerance,
                                  teapot_status=TeapotStatus.NOT_TEAPOT)
 
     def noise(self, level=None):
@@ -106,17 +107,30 @@ class TeapotBloc:
             listener(self.state)
 
     def handle_event(self, event: AppEvent):
-        if isinstance(event, UpdateCurrentTimeEvent):
-            self.state.current_time = event.current_time
-        elif isinstance(event, UpdateFullTimeEvent):
-            self.state.full_time = event.full_time
+        if isinstance(event, StartTimer):
+            self.state.count = self.state.count + 1
+            self.start_timer()
         elif isinstance(event, UpdateIterationTimeEvent):
-            self.state.iteration_time = event.iteration_time
+            self.state.iteration_time = self.state.iteration_time + event.iteration_time
         elif isinstance(event, UpdateCountEvent):
             self.state.count = event.count
         elif isinstance(event, UpdateStatusEvent):
             self.state.teapot_status = event.teapot_status
         self.emit()
 
+    def start_timer(self):
+        # Reset current time to 0 and increment by 1 each second
+        def update_timer():
+            if self.state.current_time <= self.state.iteration_time:
+                self.state.current_time += 0.01
+                self.emit()  # Emit updated state to listeners
+                # Schedule the next timer update
+                Timer(0.01, update_timer).start()
+            else:
+                self.state.current_time = 0
+                Timer(1, self.emit).start()
 
-teapot_bloc = TeapotBloc() #for imports todo: try singleton
+        Timer(0.01, update_timer).start()
+
+
+teapot_bloc = TeapotBloc()  # for imports todo: try singleton

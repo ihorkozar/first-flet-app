@@ -1,9 +1,11 @@
 import flet as ft
 
 from app_constants import *
+from teapot_bloc import *
+from teaport_event import StartTimer
 
 
-def bottom_widget(on_start_click: ft.OptionalEventCallable):
+def bottom_widget():
     return ft.Row(
         [
             ft.OutlinedButton(
@@ -34,7 +36,7 @@ def bottom_widget(on_start_click: ft.OptionalEventCallable):
                 content=ft.Image(
                     src="assets/tea.svg",
                 ),
-                on_click=on_start_click,
+                on_click=lambda e:teapot_bloc.handle_event(StartTimer()),
             ),
             ft.ElevatedButton(
                 style=ft.ButtonStyle(

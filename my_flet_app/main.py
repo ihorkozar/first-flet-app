@@ -1,3 +1,5 @@
+import time
+
 import flet as ft
 
 from app_constants import *
@@ -9,7 +11,7 @@ from top_widget import top_widget
 def main(page: ft.Page):
     page.title = "Flet Scaffold"
     page.window.width = 500
-    page.window.height = 800
+    page.window.height = 820
     page.window_resizable = False
     page.bgcolor = main_color
     page.fonts = {
@@ -24,11 +26,10 @@ def main(page: ft.Page):
         content=ft.ListView(
             [
                 top_widget(),
-                ft.Container(height=45),
+                ft.Container(height=32),
                 body_content(),
-                ft.Container(height=45),
-                bottom_widget(
-                    lambda e: print("x")),
+                ft.Container(height=32),
+                bottom_widget()
             ],
             expand=True,
         ),
@@ -37,7 +38,6 @@ def main(page: ft.Page):
 
     page.appbar = app_bar
     page.add(body)
-
     page.update()
 
 ft.app(target=main)
