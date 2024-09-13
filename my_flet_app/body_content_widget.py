@@ -9,10 +9,12 @@ from teapot_bloc import teapot_bloc
 
 
 def should_rebuild_count(prev_state: TeapotState, new_state: TeapotState) -> bool:
+    print(f"Should rebuild {prev_state != new_state}")
     return prev_state.count != new_state.count
 
 
 def should_rebuild_time(prev_state: TeapotState, new_state: TeapotState) -> bool:
+    print(f"Should rebuild {prev_state != new_state}")
     return prev_state.current_time != new_state.current_time
 
 
@@ -26,7 +28,8 @@ def body_content():
                 control=ft.Container(),
                 bloc=teapot_bloc,
                 build_when=should_rebuild_count,
-                builder=lambda state: ft.Column(
+                builder=lambda state:
+                ft.Column(
                     width=56,
                     horizontal_alignment=ft.CrossAxisAlignment.CENTER,
                     controls=[
@@ -45,6 +48,7 @@ def body_content():
                                 width=28
                             ) for _ in range(12 - state.count)
                         ],
+
                     ]),
             ).build(),
             ft.Container(width=26),
@@ -52,15 +56,18 @@ def body_content():
                 control=ft.Container(),
                 bloc=teapot_bloc,
                 build_when=should_rebuild_time,
-                builder=lambda state: ft.Column(
+                builder=lambda state:
+                ft.Column(
                     alignment=MainAxisAlignment.CENTER,
                     horizontal_alignment=ft.CrossAxisAlignment.CENTER,
                     controls=[
                         circular_progress_widget(state.current_time, state.iteration_time),
+                        ft.Container(height=26),
                         ft.Image(
                             src="assets/cup-open.png" if state.current_time == 0 else "assets/cup-close.png",
-                            width=195
+                            width=195,
+                            height=195,
                         ),
                     ]),
-            ).build(),
-        ]),
+            ).build()
+        ])

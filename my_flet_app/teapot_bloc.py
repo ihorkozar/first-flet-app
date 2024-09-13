@@ -128,7 +128,7 @@ class TeapotBloc:
                 Timer(0.01, update_timer).start()
             else:
                 self.state.current_time = 0
-                Timer(1, self.emit).start()
+                Timer(0.1, self.emit).start()
 
         Timer(0.01, update_timer).start()
 
