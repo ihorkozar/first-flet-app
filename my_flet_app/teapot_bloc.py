@@ -111,7 +111,9 @@ class TeapotBloc:
             self.state.count = self.state.count + 1
             self.start_timer()
         elif isinstance(event, UpdateIterationTimeEvent):
+            print(f"UpdateIterationTimeEvent {self.state.iteration_time}")
             self.state.iteration_time = self.state.iteration_time + event.iteration_time
+            print(f"After UpdateIterationTimeEvent {self.state.iteration_time}")
         elif isinstance(event, UpdateCountEvent):
             self.state.count = event.count
         elif isinstance(event, UpdateStatusEvent):
@@ -127,6 +129,7 @@ class TeapotBloc:
                 # Schedule the next timer update
                 Timer(0.01, update_timer).start()
             else:
+                self.state.full_time = self.state.full_time + self.state.iteration_time
                 self.state.current_time = 0
                 Timer(0.1, self.emit).start()
 

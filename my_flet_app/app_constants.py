@@ -5,6 +5,8 @@ divider_color = "#FAD074"
 orange = "#FFC634"
 silver = "#7c7873"
 yellow = "#fad074"
+white = "#FFF0E1"
+
 
 empty_teapot_weight = 117
 cap_weight = 25

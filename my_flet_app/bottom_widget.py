@@ -55,7 +55,7 @@ def bottom_widget():
                         ),
                         ft.Text("+5 sec")
                     ]),
-                on_click=lambda e: print("Elevated Button clicked"),
+                on_click=lambda e:teapot_bloc.handle_event(UpdateIterationTimeEvent(5)),
             ),
         ],
         alignment=ft.MainAxisAlignment.CENTER,
