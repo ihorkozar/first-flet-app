@@ -1,13 +1,10 @@
-import time
-
 import flet as ft
 
-from app_constants import *
-from body_content_widget import body_content
-from custom_app_bar import custom_app_bar
-from bottom_widget import bottom_widget
-from top_widget import top_widget
-
+from components.body_content_widget import body_content
+from components.bottom_widget import bottom_widget
+from components.custom_app_bar import custom_app_bar
+from components.top_widget import top_widget
+from utils.app_constants import *
 
 globalPage = None
 

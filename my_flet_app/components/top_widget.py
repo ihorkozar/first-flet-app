@@ -1,7 +1,7 @@
 import flet as ft
 
-from app_constants import *
-from utils import with_opacity
+from utils.app_constants import *
+from utils.utils import with_opacity
 
 
 def top_section_element(icon_src: str, text: str, is_active: bool):
@@ -26,13 +26,13 @@ def top_widget():
             height=56,
             alignment=ft.MainAxisAlignment.CENTER,
             controls=[
-                top_section_element(icon_src="assets/cup.svg", text="100 g", is_active=True),
+                top_section_element(icon_src="../assets/cup.svg", text="100 g", is_active=True),
                 ft.VerticalDivider(width=1, color=divider_color),
-                top_section_element(icon_src="assets/leaf.svg", text="2 g", is_active=False),
+                top_section_element(icon_src="../assets/leaf.svg", text="2 g", is_active=False),
                 ft.VerticalDivider(width=1, color=divider_color),
-                top_section_element(icon_src="assets/icon_water.svg", text="150 ml", is_active=False),
+                top_section_element(icon_src="../assets/icon_water.svg", text="150 ml", is_active=False),
                 ft.VerticalDivider(width=1, color=divider_color),
-                top_section_element(icon_src="assets/lid.svg", text="0 g", is_active=False),
+                top_section_element(icon_src="../assets/lid.svg", text="0 g", is_active=False),
             ]
         ),
         border=ft.Border(

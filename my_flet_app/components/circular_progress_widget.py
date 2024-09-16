@@ -1,6 +1,8 @@
 import flet as ft
-from app_constants import silver, yellow, total_time, white
-from utils import format_minutes
+
+from utils.app_constants import silver, yellow, white
+from utils.utils import format_minutes
+
 
 def circular_progress_widget(current_time, iteration_time, full_time):
     progress_value = current_time / iteration_time if iteration_time > 0 else 0

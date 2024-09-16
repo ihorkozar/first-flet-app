@@ -1,8 +1,8 @@
 import flet as ft
-
-from bloc_builder import TeapotBlocBuilder
-from teapot_bloc import *
-from teaport_event import StartTimer
+from bloc.bloc_builder import TeapotBlocBuilder
+from bloc.teaport_event import StartTimer
+from bloc.teapot_bloc import *
+from utils.app_constants import *
 
 
 def should_rebuild_count(prev_state: TeapotState, new_state: TeapotState) -> bool:
@@ -23,7 +23,7 @@ def bottom_widget():
                 height=60,
                 width=80,
                 content=ft.Image(
-                    src="assets/stop.svg",
+                    src="../assets/stop.svg",
                 ),
                 on_click=lambda e: print("Outlined Button 1 clicked"),
             ),
@@ -43,7 +43,7 @@ def bottom_widget():
                     height=60,
                     width=80,
                     content=ft.Image(
-                        src="assets/tea.svg",
+                        src="../assets/tea.svg",
                     ),
                     on_click=lambda e: handle_start_timer(teapot_bloc, state)
                 ),
@@ -62,7 +62,7 @@ def bottom_widget():
                     alignment=ft.alignment.center,
                     controls=[
                         ft.Image(
-                            src="assets/update.svg",
+                            src="../assets/update.svg",
                         ),
                         ft.Text("+5 sec")
                     ]),

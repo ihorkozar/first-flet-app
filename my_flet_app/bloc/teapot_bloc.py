@@ -1,10 +1,9 @@
-import random
 from threading import Timer
-from typing import Callable, List
+from typing import Callable
 
-from app_constants import *
-from teaport_event import *
-from teapot_state import TeapotStatus, TeapotState
+from bloc.teaport_event import *
+from bloc.teapot_state import TeapotStatus, TeapotState
+from utils.app_constants import tolerance
 
 
 class TeapotBloc:

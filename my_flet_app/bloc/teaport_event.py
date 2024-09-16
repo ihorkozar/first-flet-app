@@ -1,4 +1,4 @@
-from teapot_state import TeapotStatus
+from bloc.teapot_state import TeapotStatus
 
 
 class AppEvent:

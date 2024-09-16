@@ -1,20 +1,17 @@
 import flet as ft
+from bloc.bloc_builder import TeapotBlocBuilder
+from bloc.teapot_bloc import teapot_bloc
+from bloc.teapot_state import TeapotStatus, TeapotState
+from components.circular_progress_widget import circular_progress_widget
 from flet_core import MainAxisAlignment
-
-from circular_progress_widget import circular_progress_widget
-from bloc_builder import TeapotBlocBuilder
-from app_constants import *
-from teapot_state import TeapotStatus, TeapotState
-from teapot_bloc import teapot_bloc
+from utils.app_constants import *
 
 
 def should_rebuild_count(prev_state: TeapotState, new_state: TeapotState) -> bool:
     return prev_state.count != new_state.count
 
-
 def should_rebuild_time(prev_state: TeapotState, new_state: TeapotState) -> bool:
     return prev_state.current_time != new_state.current_time or prev_state.iteration_time != new_state.iteration_time
-
 
 def body_content():
     return ft.Row(
@@ -72,7 +69,7 @@ def water_icons(state):
         color = orange if i < state.count else silver
         icons.append(
             ft.Image(
-                src="assets/icon_water.svg",
+                src="../assets/icon_water.svg",
                 color=color,
                 width=24
             )

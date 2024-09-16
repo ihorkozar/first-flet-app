@@ -1,8 +1,8 @@
 import random
-from app_constants import *
-import flet as ft
 import time
-import threading
+
+from utils.app_constants import *
+
 
 def noise(level=tolerance):
     def decorator(func):

@@ -1,10 +1,9 @@
 from copy import deepcopy
+from typing import Optional
 
 import flet as ft
-from typing import Callable, TypeVar, Generic, Optional
-
-from teapot_bloc import *
-from teapot_state import *
+from bloc.teapot_bloc import *
+from bloc.teapot_state import *
 
 
 class TeapotBlocBuilder(TeapotState):
