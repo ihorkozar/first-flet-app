@@ -6,7 +6,6 @@ from components.custom_app_bar import custom_app_bar
 from components.top_widget import top_widget
 from utils.app_constants import *
 
-globalPage = None
 
 def main(page: ft.Page):
     page.title = "Flet Scaffold"
@@ -29,7 +28,7 @@ def main(page: ft.Page):
                 ft.Container(height=32),
                 body_content(),
                 ft.Container(height=32),
-                bottom_widget()
+                bottom_widget(page)
             ],
             expand=True,
         ),

@@ -9,7 +9,7 @@ def should_rebuild_count(prev_state: TeapotState, new_state: TeapotState) -> boo
     return prev_state.count != new_state.count
 
 
-def bottom_widget():
+def bottom_widget(page: ft.Page):
     return ft.Row(
         [
             ft.OutlinedButton(
@@ -45,7 +45,7 @@ def bottom_widget():
                     content=ft.Image(
                         src="../assets/tea.svg",
                     ),
-                    on_click=lambda e: handle_start_timer(teapot_bloc, state)
+                    on_click=lambda e: handle_start_timer(teapot_bloc, state, page)
                 ),
             ).build(),
 
@@ -74,19 +74,23 @@ def bottom_widget():
     )
 
 
-def handle_start_timer(bloc, state):
+def handle_start_timer(bloc, state, page):
     if state.count < 12:
         bloc.handle_event(StartTimer())
     else:
-        show_count_exceeds_dialog()
+        show_count_exceeds_dialog(page)
 
 
-def show_count_exceeds_dialog():
+def show_count_exceeds_dialog(page: ft.Page):
+    def close_dialog(_):
+        page.dialog.open = False  # Close the dialog
+        page.close(dialog)
+
     dialog = ft.AlertDialog(
         title=ft.Text("Count Exceeds Limit"),
         content=ft.Text("You cannot start the timer because the count exceeds 12."),
         actions=[
-            ft.TextButton("OK")
+            ft.TextButton("OK", on_click=close_dialog)
         ]
     )
-    PageSingleton.get_instance().open(dialog)
+    page.open(dialog)

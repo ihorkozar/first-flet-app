@@ -26,7 +26,7 @@ def body_content():
                 builder=lambda state:
                 ft.Column(
                     height=480,
-                    width=56,
+                    width=80,
                     horizontal_alignment=ft.CrossAxisAlignment.CENTER,
                     controls=[
                         ft.Row(
