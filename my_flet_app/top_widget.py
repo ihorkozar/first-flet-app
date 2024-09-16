@@ -1,69 +1,42 @@
 import flet as ft
+
 from app_constants import *
+from utils import with_opacity
+
+
+def top_section_element(icon_src: str, text: str, is_active: bool):
+    text_color = yellow if is_active else with_opacity(yellow, 0.5)
+    return ft.Row(
+        alignment=ft.MainAxisAlignment.CENTER,
+        width=80,
+        controls=[
+            ft.Image(
+                src=icon_src,
+                color=text_color,
+                width=20
+            ),
+            ft.Text(text, size=14, color=text_color)
+        ]
+    )
 
 def top_widget():
     return ft.Container(
         padding=ft.Padding(10, 16, 10, 16),
         content=ft.Row(
             height=56,
-            alignment=ft.MainAxisAlignment.CENTER,  # Center the row contents
-            spacing=10,
+            alignment=ft.MainAxisAlignment.CENTER,
             controls=[
-                ft.Row(
-                    width=80,
-                    controls=[
-                        ft.Image(
-                            src="assets/cup.svg",
-                            color=divider_color,
-                            width=24
-                        ),
-                        ft.Text("100 g", size=14, color=divider_color)
-                        # Text next to the cup icon
-                    ],
-                ),
+                top_section_element(icon_src="assets/cup.svg", text="100 g", is_active=True),
                 ft.VerticalDivider(width=1, color=divider_color),
-                ft.Row(
-                    width=80,
-                    controls=[
-                        ft.Image(
-                            src="assets/leaf.svg",
-                            color=divider_color,
-                            width=24
-                        ),
-                        ft.Text("2 g", size=14, color=divider_color)
-                        # Text next to the leaf icon
-                    ],
-                ),
+                top_section_element(icon_src="assets/leaf.svg", text="2 g", is_active=False),
                 ft.VerticalDivider(width=1, color=divider_color),
-                ft.Row(
-                    width=80,
-                    controls=[
-                        ft.Image(
-                            src="assets/icon_water.svg",
-                            color=divider_color,
-                            width=24
-                        ),
-                        ft.Text("150 ml", size=14, color=divider_color)
-                        # Text next to the water icon
-                    ],
-                ),
+                top_section_element(icon_src="assets/icon_water.svg", text="150 ml", is_active=False),
                 ft.VerticalDivider(width=1, color=divider_color),
-                ft.Row(
-                    width=80,
-                    controls=[
-                        ft.Image(
-                            src="assets/lid.svg",
-                            color=divider_color,
-                            width=24
-                        ),
-                        ft.Text("0 g", size=14, color=divider_color)
-                        # Text next to the lid icon
-                    ],
-                ),
+                top_section_element(icon_src="assets/lid.svg", text="0 g", is_active=False),
             ]
         ),
         border=ft.Border(
-            top=ft.BorderSide(color=divider_color, width=1),  # Set the top border
-            bottom=ft.BorderSide(color=divider_color, width=1)  # Set the bottom border
+            top=ft.BorderSide(color=divider_color, width=1),
+            bottom=ft.BorderSide(color=divider_color, width=1)
         )
     )

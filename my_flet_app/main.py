@@ -8,6 +8,9 @@ from custom_app_bar import custom_app_bar
 from bottom_widget import bottom_widget
 from top_widget import top_widget
 
+
+globalPage = None
+
 def main(page: ft.Page):
     page.title = "Flet Scaffold"
     page.window.width = 500
