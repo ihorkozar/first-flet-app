@@ -118,19 +118,29 @@ class TeapotBloc:
         self.emit()
 
     def start_timer(self):
-        # Reset current time to 0 and increment by 1 each second
-        def update_timer():
-            if self.state.current_time <= self.state.iteration_time:
-                self.state.current_time += 0.01
-                self.emit()  # Emit updated state to listeners
-                # Schedule the next timer update
-                Timer(0.01, update_timer).start()
-            else:
-                self.state.full_time = self.state.full_time + self.state.iteration_time
-                self.state.current_time = 0
-                Timer(0.1, self.emit).start()
+        # Stop any existing timer
+        if hasattr(self, '_timer'):
+            self._timer.cancel()
 
-        Timer(0.01, update_timer).start()
+        # Reset current time before starting
+        self.state.current_time = 0
+
+        def update_timer():
+            if self.state.current_time < self.state.iteration_time:
+                self.state.current_time += 0.01
+                self.emit()
+                # Schedule the next timer update
+                self._timer = Timer(0.01, update_timer)
+                self._timer.start()
+            else:
+                self.state.full_time += self.state.iteration_time
+                self.state.current_time = 0
+                self.emit()  # Emit at the end of iteration
+                # Optionally, you can reset the timer or do other logic here
+
+        # Start the timer
+        self._timer = Timer(0.01, update_timer)
+        self._timer.start()
 
 
 teapot_bloc = TeapotBloc()  # for imports todo: try singleton
