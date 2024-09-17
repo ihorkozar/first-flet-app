@@ -2,11 +2,24 @@ import flet as ft
 from bloc.bloc_builder import TeapotBlocBuilder
 from bloc.teaport_event import StartTimer
 from bloc.teapot_bloc import *
+from components.stepper_button import StepperButton
 from utils.app_constants import *
 
 
 def should_rebuild_count(prev_state: TeapotState, new_state: TeapotState) -> bool:
     return prev_state.count != new_state.count
+
+
+def should_rebuild_iteration_time(prev_state: TeapotState, new_state: TeapotState) -> bool:
+    return prev_state.iteration_time != new_state.iteration_time
+
+
+def increment_time():
+    teapot_bloc.handle_event(UpdateIterationTimeEvent(5))
+
+
+def decrement_time():
+    teapot_bloc.handle_event(UpdateIterationTimeEvent(-5))
 
 
 def bottom_widget(page: ft.Page):
@@ -31,8 +44,7 @@ def bottom_widget(page: ft.Page):
                 control=ft.Container(),
                 bloc=teapot_bloc,
                 build_when=should_rebuild_count,
-                builder=lambda state:
-                ft.OutlinedButton(
+                builder=lambda state: ft.OutlinedButton(
                     style=ft.ButtonStyle(
                         shape=ft.RoundedRectangleBorder(radius=ft.BorderRadius(16, 16, 16, 16), ),
                         side=ft.BorderSide(
@@ -48,26 +60,17 @@ def bottom_widget(page: ft.Page):
                     on_click=lambda e: handle_start_timer(teapot_bloc, state, page)
                 ),
             ).build(),
-
-            ft.ElevatedButton(
-                style=ft.ButtonStyle(
-                    shape=ft.RoundedRectangleBorder(radius=ft.BorderRadius(16, 16, 16, 16), ),
-                    bgcolor=button_color,
-                    color=button_color2,
+            TeapotBlocBuilder(
+                control=ft.Container(),
+                bloc=teapot_bloc,
+                build_when=should_rebuild_iteration_time,
+                builder=lambda state: StepperButton(
+                    on_left_click=lambda: decrement_time() if state.iteration_time >= 10 else None,
+                    on_right_click=increment_time,
+                    button_color=button_color,
+                    text_color=button_color2,
                 ),
-                height=60,
-                width=179,
-                content=ft.Row(
-                    width=80,
-                    alignment=ft.alignment.center,
-                    controls=[
-                        ft.Image(
-                            src="../assets/update.svg",
-                        ),
-                        ft.Text("+5 sec")
-                    ]),
-                on_click=lambda e: teapot_bloc.handle_event(UpdateIterationTimeEvent(5)),
-            ),
+            ).build(),
         ],
         alignment=ft.MainAxisAlignment.CENTER,
         spacing=8,
