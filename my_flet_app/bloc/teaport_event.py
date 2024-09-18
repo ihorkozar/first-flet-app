@@ -28,5 +28,5 @@ class UpdateStatusEvent(AppEvent):
 
 
 class UpdateWeightEvent(AppEvent):
-    def __init__(self, weight: float):
+    def __init__(self, weight: int):
         self.weight = weight

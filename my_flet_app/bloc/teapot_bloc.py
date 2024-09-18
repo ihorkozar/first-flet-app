@@ -21,6 +21,10 @@ class TeapotBloc:
         self.listeners.remove(listener)
 
     def emit(self):
+        if self.state is None:
+            print("State is None, cannot emit updates")
+            return
+
         for listener in self.listeners:
             listener(self.state)
 
@@ -45,9 +49,30 @@ class TeapotBloc:
             self.state.count = 1
             self.start_timer()
         elif isinstance(event, UpdateWeightEvent):
+            if event is None:
+                print("Received a None event")
+                return
             new_status = identify_teapot_state(event.weight)
             self.state.teapot_status = new_status
-            print(f"UpdateWeightEvent {event.weight} {new_status}")
+            print(f"{event.weight}")
+            if new_status == TeapotStatus.TEAPOT:
+                self.state.cup = event.weight
+            # elif new_status == TeapotStatus.TEAPOT_LEAVES:
+            #     self.state.leaf = event.weight - self.state.cup
+            # elif new_status == TeapotStatus.TEAPOT_LEAVES_CAP:
+            #     self.state.leaf = event.weight - self.state.cup
+            # elif new_status == TeapotStatus.TEAPOT_LEAVES_WATER:
+            #     self.state.water = event.weight - self.state.cup - self.state.leaf
+            # elif new_status == TeapotStatus.TEAPOT_LEAVES_WATER_CAP:
+            #     self.state.water = event.weight - self.state.cup - self.state.leaf
+            # elif new_status == TeapotStatus.TEAPOT_UNKNOWN:
+            #     print("The state of the teapot is unknown.")
+            # elif new_status == TeapotStatus.NOT_TEAPOT:
+            #     self.state.water = 0
+            #     self.state.cup = 0
+            #     self.state.leaf = 0
+            #     self.state.lid = 0
+
         self.emit()
 
     def start_timer(self):

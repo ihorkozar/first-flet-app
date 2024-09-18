@@ -10,8 +10,12 @@ from utils.app_constants import *
 def should_rebuild_count(prev_state: TeapotState, new_state: TeapotState) -> bool:
     return prev_state.count != new_state.count
 
+
 def should_rebuild_time(prev_state: TeapotState, new_state: TeapotState) -> bool:
-    return prev_state.current_time != new_state.current_time or prev_state.iteration_time != new_state.iteration_time
+    return (prev_state.current_time != new_state.current_time or
+            prev_state.iteration_time != new_state.iteration_time or
+            prev_state.teapot_status != new_state.teapot_status)
+
 
 def body_content():
     return ft.Row(
@@ -54,14 +58,11 @@ def body_content():
                     controls=[
                         circular_progress_widget(state.current_time, state.iteration_time, state.full_time),
                         ft.Container(height=26),
-                        ft.Image(
-                            src="assets/cup-open.png" if state.current_time == 0 else "assets/cup-close.png",
-                            width=195,
-                            height=195,
-                        )
+                        build_teapot_image(state)
                     ]),
             ).build()
         ])
+
 
 def water_icons(state):
     icons = []
@@ -76,8 +77,15 @@ def water_icons(state):
         )
     return ft.Column(controls=icons)
 
+
 def build_teapot_image(state):
-    if state.teapot_status != TeapotStatus.NOT_TEAPOT:
+    if state.teapot_status == TeapotStatus.TEAPOT:
+        return ft.Image(
+            src="assets/cup-empty.png",
+            width=195,
+            height=195,
+        )
+    elif state.teapot_status != TeapotStatus.TEAPOT_UNKNOWN:
         return ft.Image(
             src="assets/cup-open.png" if state.current_time == 0 else "assets/cup-close.png",
             width=195,
