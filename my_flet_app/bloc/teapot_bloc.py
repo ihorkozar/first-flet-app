@@ -115,6 +115,9 @@ class TeapotBloc:
             self.state.count = event.count
         elif isinstance(event, UpdateStatusEvent):
             self.state.teapot_status = event.teapot_status
+        elif isinstance(event, StartCupEvent):
+            self.state.count = 1
+            self.start_timer()
         self.emit()
 
     def start_timer(self):

@@ -3,6 +3,7 @@ from bloc.bloc_builder import TeapotBlocBuilder
 from bloc.teaport_event import StartTimer
 from bloc.teapot_bloc import *
 from components.stepper_button import StepperButton
+from flet_core import MainAxisAlignment, TextAlign
 from utils.app_constants import *
 
 
@@ -25,21 +26,27 @@ def decrement_time():
 def bottom_widget(page: ft.Page):
     return ft.Row(
         [
-            ft.OutlinedButton(
-                style=ft.ButtonStyle(
-                    shape=ft.RoundedRectangleBorder(radius=ft.BorderRadius(16, 16, 16, 16), ),
-                    side=ft.BorderSide(
-                        color=button_color,
-                        width=1
+            TeapotBlocBuilder(
+                control=ft.Container(),
+                bloc=teapot_bloc,
+                build_when=should_rebuild_count,
+                builder=lambda state: ft.OutlinedButton(
+                    style=ft.ButtonStyle(
+                        shape=ft.RoundedRectangleBorder(radius=ft.BorderRadius(16, 16, 16, 16), ),
+                        side=ft.BorderSide(
+                            color=button_color,
+                            width=1
+                        ),
                     ),
+                    height=60,
+                    width=80,
+                    content=ft.Image(
+                        src="../assets/stop.svg",
+                    ),
+                    on_click=lambda e: handle_start_timer(teapot_bloc, state, page),
                 ),
-                height=60,
-                width=80,
-                content=ft.Image(
-                    src="../assets/stop.svg",
-                ),
-                on_click=lambda e: print("Outlined Button 1 clicked"),
-            ),
+            ).build(),
+
             TeapotBlocBuilder(
                 control=ft.Container(),
                 bloc=teapot_bloc,
@@ -57,7 +64,7 @@ def bottom_widget(page: ft.Page):
                     content=ft.Image(
                         src="../assets/tea.svg",
                     ),
-                    on_click=lambda e: handle_start_timer(teapot_bloc, state, page)
+                    on_click=lambda e: teapot_bloc.handle_event(StartCupEvent())
                 ),
             ).build(),
             TeapotBlocBuilder(
@@ -85,15 +92,44 @@ def handle_start_timer(bloc, state, page):
 
 
 def show_count_exceeds_dialog(page: ft.Page):
-    def close_dialog(_):
-        page.dialog.open = False  # Close the dialog
-        page.close(dialog)
-
     dialog = ft.AlertDialog(
-        title=ft.Text("Count Exceeds Limit"),
-        content=ft.Text("You cannot start the timer because the count exceeds 12."),
+        bgcolor=dialog_bg,
+        actions_alignment=MainAxisAlignment.SPACE_BETWEEN,
+        title=ft.Row(
+            expand=True,
+            alignment=MainAxisAlignment.END,
+            controls=[ft.IconButton(ft.icons.CLOSE, on_click=lambda e: close_dialog(page), icon_color=white)],
+        ),
+        content=ft.Container(
+            width=100,
+            height=60,
+            content=ft.Text("Do you want to make a new cup?",
+                            text_align=TextAlign.CENTER,
+                            style=ft.TextStyle(size=16)),
+        ),
         actions=[
-            ft.TextButton("OK", on_click=close_dialog)
+            ft.OutlinedButton("Enough", on_click=lambda _: close_dialog(page, False), style=ft.ButtonStyle(
+                color=white,
+                shape=ft.RoundedRectangleBorder(radius=ft.BorderRadius(16, 16, 16, 16), ),
+                side=ft.BorderSide(
+                    color=button_color,
+                    width=1
+                ),
+            ), height=60),
+            ft.ElevatedButton("One more", on_click=lambda _: close_dialog(page, True), style=ft.ButtonStyle(
+                shape=ft.RoundedRectangleBorder(radius=ft.BorderRadius(16, 16, 16, 16), ),
+                bgcolor=button_color,
+                color=button_color2,
+            ), height=60),
         ]
     )
-    page.open(dialog)
+
+    def close_dialog(page: ft.Page, new_cup: bool):
+        if new_cup:
+            teapot_bloc.handle_event(StartCupEvent())
+        dialog.open = False  # Close the dialog
+        page.update()  # Update the page to reflect the change
+
+    page.dialog = dialog  # Assign the dialog to the page's dialog property
+    page.dialog.open = True  # Open the dialog
+    page.update()

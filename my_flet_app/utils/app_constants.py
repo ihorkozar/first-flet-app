@@ -6,6 +6,7 @@ orange = "#FFC634"
 silver = "#7c7873"
 yellow = "#fad074"
 white = "#FFF0E1"
+dialog_bg = "#383636"
 
 
 empty_teapot_weight = 117

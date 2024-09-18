@@ -1,5 +1,4 @@
 import random
-import time
 
 from utils.app_constants import *
 
@@ -78,18 +77,3 @@ def identify_teapot_state(weight):
             return state_sets
 
     return "not_teapot"
-
-
-def start(page, progress_ring, remaining_time_text, full_time_text):
-    total_steps = total_time * 100
-    step_duration = 1 / 100
-
-    for step in range(total_steps, 0, -1):
-        time.sleep(step_duration)
-        progress_value = step / total_steps
-
-        progress_ring.value = 1.0 - progress_value
-        remaining_time = int(step * step_duration)
-        remaining_time_text.value = f"{remaining_time} s left"
-
-        page.update()

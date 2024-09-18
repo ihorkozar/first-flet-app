@@ -11,7 +11,7 @@ def main(page: ft.Page):
     page.title = "Flet Scaffold"
     page.window.width = 500
     page.window.height = 820
-    page.window_resizable = False
+    page.window.resizable = False
     page.bgcolor = main_color
     page.fonts = {
         "InknutAntiqua": "fonts/InknutAntiqua-Medium.ttf",

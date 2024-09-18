@@ -7,6 +7,10 @@ class AppEvent:
 class StartTimer(AppEvent):
     pass
 
+
+class StartCupEvent(AppEvent):
+    pass
+
 class UpdateIterationTimeEvent(AppEvent):
     def __init__(self, iteration_time: int):
         self.iteration_time = iteration_time

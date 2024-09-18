@@ -1,6 +1,5 @@
-from enum import Enum, auto
 from dataclasses import dataclass
-from typing import List
+from enum import Enum, auto
 
 
 class TeapotStatus(Enum):
