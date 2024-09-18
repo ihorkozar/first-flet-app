@@ -7,8 +7,11 @@ class AppEvent:
 class StartTimer(AppEvent):
     pass
 
-
 class StartCupEvent(AppEvent):
+    pass
+
+
+class StartStreamEvent(AppEvent):
     pass
 
 class UpdateIterationTimeEvent(AppEvent):
@@ -22,3 +25,8 @@ class UpdateCountEvent(AppEvent):
 class UpdateStatusEvent(AppEvent):
     def __init__(self, teapot_status: TeapotStatus):
         self.teapot_status = teapot_status
+
+
+class UpdateWeightEvent(AppEvent):
+    def __init__(self, weight: float):
+        self.weight = weight

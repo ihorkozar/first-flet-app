@@ -1,99 +1,18 @@
 from threading import Timer
 from typing import Callable
 
+import rx
 from bloc.teaport_event import *
 from bloc.teapot_state import TeapotStatus, TeapotState
 from utils.app_constants import tolerance
+from weights import identify_teapot_state, numbers_stream
 
 
 class TeapotBloc:
     def __init__(self):
         self.listeners: list[Callable[[TeapotState], None]] = []
         self.state = TeapotState(count=0, full_time=0, current_time=0, iteration_time=tolerance,
-                                 teapot_status=TeapotStatus.NOT_TEAPOT)
-
-    # def noise(self, level=None):
-    #     if level is None:
-    #         level = self._tolerance
-    #
-    #     def decorator(func):
-    #         def wrapper(*args, **kwargs):
-    #             result = func(*args, **kwargs)
-    #             noise_value = (random.random() * level / 200) * random.choice([-1, 1])
-    #             return result + noise_value
-    #
-    #         return wrapper
-    #
-    #     return decorator
-    #
-    # @property
-    # def empty(self):
-    #     @self.noise(level=self._tolerance)
-    #     def inner_empty():
-    #         return 0
-    #
-    #     return inner_empty()
-    #
-    # @property
-    # def empty_teapot(self):
-    #     @self.noise()
-    #     def inner_empty_teapot():
-    #         return self.empty + self._empty_teapot_weight + self._leaves_min_weight
-    #
-    #     return inner_empty_teapot()
-    #
-    # @property
-    # def full_teapot(self):
-    #     @self.noise()
-    #     def inner_full_teapot():
-    #         return self.empty_teapot + self._water_max_weight + self._cap_weight
-    #
-    #     return inner_full_teapot()
-    #
-    # @property
-    # def full_teapot_cap(self):
-    #     @self.noise()
-    #     def inner_full_teapot_cap():
-    #         return self.empty_teapot + self._leaves_max_weight + self._water_max_weight + self._cap_weight + self._tolerance
-    #
-    #     return inner_full_teapot_cap()
-    #
-    # def identify_teapot_status(self, weight):
-    #     empty_threshold = 3
-    #
-    #     statuses = {
-    #         TeapotStatus.EMPTY: (-empty_threshold, empty_threshold),
-    #         TeapotStatus.TEAPOT: (
-    #             self._empty_teapot_weight - self._tolerance,
-    #             self._empty_teapot_weight + self._tolerance
-    #         ),
-    #         TeapotStatus.TEAPOT_LEAVES: (
-    #             self._empty_teapot_weight + self._leaves_min_weight - self._tolerance,
-    #             self._empty_teapot_weight + self._leaves_max_weight + self._tolerance
-    #         ),
-    #         TeapotStatus.TEAPOT_LEAVES_CAP: (
-    #             self._empty_teapot_weight + self._leaves_min_weight + self._cap_weight - self._tolerance,
-    #             self._empty_teapot_weight + self._leaves_max_weight + self._cap_weight + self._tolerance
-    #         ),
-    #         TeapotStatus.TEAPOT_LEAVES_WATER: (
-    #             self._empty_teapot_weight + self._leaves_min_weight + self._water_min_weight - self._tolerance,
-    #             self._empty_teapot_weight + self._leaves_max_weight + self._water_max_weight + self._tolerance
-    #         ),
-    #         TeapotStatus.TEAPOT_LEAVES_WATER_CAP: (
-    #             self._empty_teapot_weight + self._leaves_min_weight + self._water_min_weight + self._cap_weight - self._tolerance,
-    #             self._empty_teapot_weight + self._leaves_max_weight + self._water_max_weight + self._cap_weight + self._tolerance
-    #         ),
-    #         TeapotStatus.TEAPOT_UNKNOWN: (
-    #             self._empty_teapot_weight + self._leaves_max_weight + self._water_max_weight + self._cap_weight + self._tolerance,
-    #             300
-    #         ),
-    #     }
-    #
-    #     for status, (min_weight, max_weight) in statuses.items():
-    #         if min_weight <= weight <= max_weight:
-    #             return status
-    #
-    #     return TeapotStatus.NOT_TEAPOT
+                                 teapot_status=TeapotStatus.NOT_TEAPOT, cup=0, leaf=0, water=0, lid=0)
 
     def add_listener(self, listener: Callable[[TeapotState], None]):
         self.listeners.append(listener)
@@ -109,6 +28,13 @@ class TeapotBloc:
         if isinstance(event, StartTimer):
             self.state.count = self.state.count + 1
             self.start_timer()
+        elif isinstance(event, StartStreamEvent):
+            stream = rx.create(numbers_stream)
+            stream.subscribe(
+                on_next=lambda value: self.handle_event(UpdateWeightEvent(weight=value)),
+                on_error=lambda e: print(f"Error: {e}"),
+                on_completed=lambda: print("End")
+            )
         elif isinstance(event, UpdateIterationTimeEvent):
             self.state.iteration_time = self.state.iteration_time + event.iteration_time
         elif isinstance(event, UpdateCountEvent):
@@ -118,12 +44,17 @@ class TeapotBloc:
         elif isinstance(event, StartCupEvent):
             self.state.count = 1
             self.start_timer()
+        elif isinstance(event, UpdateWeightEvent):
+            new_status = identify_teapot_state(event.weight)
+            self.state.teapot_status = new_status
+            print(f"UpdateWeightEvent {event.weight} {new_status}")
         self.emit()
 
     def start_timer(self):
         # Stop any existing timer
         if hasattr(self, '_timer'):
             self._timer.cancel()
+            self.state.full_time += self.state.current_time
 
         # Reset current time before starting
         self.state.current_time = 0
@@ -132,14 +63,12 @@ class TeapotBloc:
             if self.state.current_time < self.state.iteration_time:
                 self.state.current_time += 0.01
                 self.emit()
-                # Schedule the next timer update
                 self._timer = Timer(0.01, update_timer)
                 self._timer.start()
             else:
                 self.state.full_time += self.state.iteration_time
                 self.state.current_time = 0
-                self.emit()  # Emit at the end of iteration
-                # Optionally, you can reset the timer or do other logic here
+                self.emit()
 
         # Start the timer
         self._timer = Timer(0.01, update_timer)

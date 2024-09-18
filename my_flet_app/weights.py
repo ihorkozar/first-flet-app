@@ -1,5 +1,8 @@
 import random
+import threading
+import time
 
+from bloc.teapot_state import TeapotStatus
 from utils.app_constants import *
 
 
@@ -36,36 +39,34 @@ def full_teapot_cap():
 
 
 def identify_teapot_state(weight):
-    # Порог для определения, что весы пусты (например, вес меньше 1 грамма)
     empty_threshold = 3
 
-    # Диапазоны весов для различных состояний
     states = {
-        "empty":(
+        TeapotStatus.EMPTY: (
             -empty_threshold,
             empty_threshold
         ),
-        "teapot": (
+        TeapotStatus.TEAPOT: (
             empty_teapot_weight - tolerance,
             empty_teapot_weight + tolerance
         ),
-        "teapot+leaves": (
+        TeapotStatus.TEAPOT_LEAVES: (
             empty_teapot_weight + leaves_min_weight - tolerance,
             empty_teapot_weight + leaves_max_weight + tolerance
         ),
-        "teapot+leaves+cap": (
+        TeapotStatus.TEAPOT_LEAVES_CAP: (
             empty_teapot_weight + leaves_min_weight + cap_weight - tolerance,
             empty_teapot_weight + leaves_max_weight + cap_weight + tolerance
         ),
-        "teapot+leaves+water": (
+        TeapotStatus.TEAPOT_LEAVES_WATER: (
             empty_teapot_weight + leaves_min_weight + water_min_weight - tolerance,
             empty_teapot_weight + leaves_max_weight + water_max_weight + tolerance
         ),
-        "teapot+leaves+water+cap": (
+        TeapotStatus.TEAPOT_LEAVES_WATER_CAP: (
             empty_teapot_weight + leaves_min_weight + water_min_weight + cap_weight - tolerance,
             empty_teapot_weight + leaves_max_weight + water_max_weight + cap_weight + tolerance
         ),
-        "teapot+leaves+water+cap+unknown": (
+        TeapotStatus.TEAPOT_UNKNOWN: (
             empty_teapot_weight + leaves_max_weight + water_max_weight + cap_weight + tolerance,
             300
         ),
@@ -73,7 +74,30 @@ def identify_teapot_state(weight):
 
     for state, (min_weight, max_weight) in states.items():
         if min_weight <= weight <= max_weight:
-            state_sets = set(state.split('+'))
-            return state_sets
+            return state
 
-    return "not_teapot"
+    return TeapotStatus.NOT_TEAPOT
+
+
+def numbers_stream(observer, scheduler):
+    def emit():
+        observer.on_next(0.)
+        values = [
+            (empty, 2),
+            (empty_teapot, 1),
+            (full_teapot, 3),
+            (full_teapot_cap, 3),
+            (empty_teapot, 2),
+            (full_teapot, 18),
+            (empty, 4),
+        ]
+        delay = 0.1
+
+        for func, count in values:
+            for _ in range(int(count / delay)):
+                observer.on_next(func())
+                time.sleep(delay)
+
+        observer.on_completed()
+
+    threading.Thread(target=emit).start()

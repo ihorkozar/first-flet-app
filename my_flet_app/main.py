@@ -1,5 +1,7 @@
 import flet as ft
 
+from bloc.teaport_event import StartStreamEvent
+from bloc.teapot_bloc import teapot_bloc
 from components.body_content_widget import body_content
 from components.bottom_widget import bottom_widget
 from components.custom_app_bar import custom_app_bar
@@ -38,6 +40,7 @@ def main(page: ft.Page):
     page.appbar = app_bar
     page.add(body)
     page.update()
+    teapot_bloc.handle_event(StartStreamEvent())
+
 
 ft.app(target=main)
-
