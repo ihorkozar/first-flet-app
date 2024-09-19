@@ -87,9 +87,6 @@ def numbers_stream(observer, scheduler):
             (empty_teapot, 1),
             (full_teapot, 3),
             (full_teapot_cap, 3),
-            (empty_teapot, 2),
-            (full_teapot, 18),
-            (empty, 4),
         ]
         delay = 0.1
 

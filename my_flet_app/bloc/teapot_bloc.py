@@ -33,6 +33,15 @@ class TeapotBloc:
             self.state.count = self.state.count + 1
             self.start_timer()
         elif isinstance(event, StartStreamEvent):
+            if hasattr(self, '_timer'):
+                self._timer.cancel()
+            self.state.water = 0
+            self.state.cup = 0
+            self.state.leaf = 0
+            self.state.lid = 0
+            self.state.count = 0
+            self.state.full_time = 0
+            self.state.current_time = 0
             stream = rx.create(numbers_stream)
             stream.subscribe(
                 on_next=lambda value: self.handle_event(UpdateWeightEvent(weight=value)),
@@ -45,33 +54,19 @@ class TeapotBloc:
             self.state.count = event.count
         elif isinstance(event, UpdateStatusEvent):
             self.state.teapot_status = event.teapot_status
-        elif isinstance(event, StartCupEvent):
-            self.state.count = 1
-            self.start_timer()
         elif isinstance(event, UpdateWeightEvent):
-            if event is None:
-                print("Received a None event")
-                return
             new_status = identify_teapot_state(event.weight)
             self.state.teapot_status = new_status
-            print(f"{event.weight}")
             if new_status == TeapotStatus.TEAPOT:
                 self.state.cup = event.weight
-            # elif new_status == TeapotStatus.TEAPOT_LEAVES:
-            #     self.state.leaf = event.weight - self.state.cup
-            # elif new_status == TeapotStatus.TEAPOT_LEAVES_CAP:
-            #     self.state.leaf = event.weight - self.state.cup
-            # elif new_status == TeapotStatus.TEAPOT_LEAVES_WATER:
-            #     self.state.water = event.weight - self.state.cup - self.state.leaf
-            # elif new_status == TeapotStatus.TEAPOT_LEAVES_WATER_CAP:
-            #     self.state.water = event.weight - self.state.cup - self.state.leaf
-            # elif new_status == TeapotStatus.TEAPOT_UNKNOWN:
-            #     print("The state of the teapot is unknown.")
-            # elif new_status == TeapotStatus.NOT_TEAPOT:
-            #     self.state.water = 0
-            #     self.state.cup = 0
-            #     self.state.leaf = 0
-            #     self.state.lid = 0
+            elif new_status == TeapotStatus.TEAPOT_LEAVES:
+                self.state.leaf = event.weight - self.state.cup
+            elif new_status == TeapotStatus.TEAPOT_LEAVES_CAP:
+                self.state.leaf = event.weight - self.state.cup
+            elif new_status == TeapotStatus.TEAPOT_LEAVES_WATER:
+                self.state.water = event.weight - self.state.cup - self.state.leaf
+            elif new_status == TeapotStatus.TEAPOT_LEAVES_WATER_CAP:
+                self.state.water = event.weight - self.state.cup - self.state.leaf
 
         self.emit()
 

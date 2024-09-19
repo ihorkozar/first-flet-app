@@ -22,9 +22,9 @@ class TeapotState:
         self.current_time = current_time
         self.iteration_time = iteration_time
         self.teapot_status = teapot_status
-        self.cup = cup,
-        self.leaf = leaf,
-        self.water = water,
+        self.cup = cup
+        self.leaf = leaf
+        self.water = water
         self.lid = lid
 
     def __eq__(self, other):

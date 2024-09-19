@@ -6,9 +6,15 @@ from components.stepper_button import StepperButton
 from flet_core import MainAxisAlignment, TextAlign
 from utils.app_constants import *
 
+from my_flet_app.utils.app_constants import white
+
 
 def should_rebuild_count(prev_state: TeapotState, new_state: TeapotState) -> bool:
     return prev_state.count != new_state.count
+
+
+def should_rebuild_count_and_cup(prev_state: TeapotState, new_state: TeapotState) -> bool:
+    return prev_state.count != new_state.count or prev_state.cup != new_state.cup
 
 
 def should_rebuild_iteration_time(prev_state: TeapotState, new_state: TeapotState) -> bool:
@@ -29,21 +35,20 @@ def bottom_widget(page: ft.Page):
             TeapotBlocBuilder(
                 control=ft.Container(),
                 bloc=teapot_bloc,
-                build_when=should_rebuild_count,
+                build_when=should_rebuild_count_and_cup,
                 builder=lambda state: ft.OutlinedButton(
                     style=ft.ButtonStyle(
                         shape=ft.RoundedRectangleBorder(radius=ft.BorderRadius(16, 16, 16, 16), ),
                         side=ft.BorderSide(
-                            color=button_color,
+                            color=silver if state.cup == 0 else button_color,
                             width=1
                         ),
                     ),
                     height=60,
                     width=80,
-                    content=ft.Image(
-                        src="../assets/stop.svg",
-                    ),
+                    content=ft.Icon(ft.icons.ARROW_RIGHT, color=white),
                     on_click=lambda e: handle_start_timer(teapot_bloc, state, page),
+                    disabled=state.cup == 0
                 ),
             ).build(),
 
@@ -64,7 +69,7 @@ def bottom_widget(page: ft.Page):
                     content=ft.Image(
                         src="../assets/tea.svg",
                     ),
-                    on_click=lambda e: teapot_bloc.handle_event(StartCupEvent())
+                    on_click=lambda e: teapot_bloc.handle_event(StartStreamEvent())
                 ),
             ).build(),
             TeapotBlocBuilder(

@@ -69,27 +69,23 @@ def water_icons(state):
     for i in range(12):
         color = orange if i < state.count else silver
         icons.append(
-            ft.Image(
-                src="../assets/icon_water.svg",
-                color=color,
-                width=24
-            )
+            ft.Icon(ft.icons.WATER_DROP, color=color),
         )
     return ft.Column(controls=icons)
 
 
 def build_teapot_image(state):
-    if state.teapot_status == TeapotStatus.TEAPOT:
+    if state.teapot_status == TeapotStatus.NOT_TEAPOT or state.teapot_status == TeapotStatus.EMPTY:
+        return ft.Container()
+    elif state.teapot_status == TeapotStatus.TEAPOT:
         return ft.Image(
             src="assets/cup-empty.png",
             width=195,
             height=195,
         )
-    elif state.teapot_status != TeapotStatus.TEAPOT_UNKNOWN:
+    else:
         return ft.Image(
             src="assets/cup-open.png" if state.current_time == 0 else "assets/cup-close.png",
             width=195,
             height=195,
         )
-    else:
-        return None

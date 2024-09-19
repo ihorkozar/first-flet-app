@@ -7,10 +7,6 @@ class AppEvent:
 class StartTimer(AppEvent):
     pass
 
-class StartCupEvent(AppEvent):
-    pass
-
-
 class StartStreamEvent(AppEvent):
     pass
 
