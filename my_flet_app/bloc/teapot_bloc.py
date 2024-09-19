@@ -12,7 +12,8 @@ class TeapotBloc:
     def __init__(self):
         self.listeners: list[Callable[[TeapotState], None]] = []
         self.state = TeapotState(count=0, full_time=0, current_time=0, iteration_time=tolerance,
-                                 teapot_status=TeapotStatus.NOT_TEAPOT, cup=0, leaf=0, water=0, lid=0)
+                                 teapot_status=TeapotStatus.NOT_TEAPOT, cup=0, leaf=0, water=0, lid=0,
+                                 is_time_alarm=False)
 
     def add_listener(self, listener: Callable[[TeapotState], None]):
         self.listeners.append(listener)
@@ -31,10 +32,12 @@ class TeapotBloc:
     def handle_event(self, event: AppEvent):
         if isinstance(event, StartTimer):
             self.state.count = self.state.count + 1
+            self.state.is_time_alarm = False
             self.start_timer()
         elif isinstance(event, StartStreamEvent):
             if hasattr(self, '_timer'):
                 self._timer.cancel()
+            self.state.is_time_alarm = False
             self.state.water = 0
             self.state.cup = 0
             self.state.leaf = 0
@@ -88,6 +91,7 @@ class TeapotBloc:
             else:
                 self.state.full_time += self.state.iteration_time
                 self.state.current_time = 0
+                self.state.is_time_alarm = True
                 self.emit()
 
         # Start the timer

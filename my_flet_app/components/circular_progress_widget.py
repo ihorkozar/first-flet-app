@@ -4,14 +4,14 @@ from utils.app_constants import silver, yellow, white
 from utils.utils import format_minutes
 
 
-def circular_progress_widget(current_time, iteration_time, full_time):
+def circular_progress_widget(current_time, iteration_time, full_time, is_time_alarm):
     progress_value = current_time / iteration_time if iteration_time > 0 else 0
     progress_ring = ft.ProgressRing(
         value=1 - progress_value,
         width=195,
         height=195,
         stroke_width=16,
-        color=yellow,
+        color=ft.colors.RED if is_time_alarm else yellow,
         bgcolor=silver,
         stroke_cap=ft.StrokeCap.ROUND,
     )

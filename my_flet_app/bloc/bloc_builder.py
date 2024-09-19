@@ -14,7 +14,8 @@ class TeapotBlocBuilder(TeapotState):
             control: ft.Control,
             build_when: Optional[Callable[[TeapotState, TeapotState], bool]]):
         super().__init__(bloc.state.count, bloc.state.full_time, bloc.state.current_time, bloc.state.iteration_time,
-                         bloc.state.teapot_status, bloc.state.cup, bloc.state.leaf, bloc.state.water, bloc.state.lid)
+                         bloc.state.teapot_status, bloc.state.cup, bloc.state.leaf, bloc.state.water, bloc.state.lid,
+                         bloc.state.is_time_alarm)
 
         self.bloc = bloc
         self.builder = builder

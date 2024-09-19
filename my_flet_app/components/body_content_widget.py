@@ -56,7 +56,8 @@ def body_content():
                     alignment=MainAxisAlignment.CENTER,
                     horizontal_alignment=ft.CrossAxisAlignment.CENTER,
                     controls=[
-                        circular_progress_widget(state.current_time, state.iteration_time, state.full_time),
+                        circular_progress_widget(state.current_time, state.iteration_time, state.full_time,
+                                                 state.is_time_alarm),
                         ft.Container(height=26),
                         build_teapot_image(state)
                     ]),
