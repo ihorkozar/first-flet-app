@@ -25,6 +25,10 @@ def empty():
 
 @noise()
 def empty_teapot():
+    return empty() + empty_teapot_weight
+
+@noise()
+def empty_teapot_leaves():
     return empty() + empty_teapot_weight + leaves_min_weight
 
 
@@ -79,14 +83,32 @@ def identify_teapot_state(weight):
     return TeapotStatus.NOT_TEAPOT
 
 
-def numbers_stream(observer, scheduler):
+def initial_stream(observer, scheduler):
     def emit():
         observer.on_next(0.)
         values = [
-            (empty, 2),
+            (empty, 1),
             (empty_teapot, 1),
-            (full_teapot, 3),
-            (full_teapot_cap, 3),
+            (empty_teapot_leaves, 1),
+        ]
+        delay = 0.1
+
+        for func, count in values:
+            for _ in range(int(count / delay)):
+                observer.on_next(func())
+                time.sleep(delay)
+
+        observer.on_completed()
+
+    threading.Thread(target=emit).start()
+
+
+def proceed_stream(observer, scheduler):
+    def emit():
+        observer.on_next(0.)
+        values = [
+            (full_teapot, 1),
+            (full_teapot_cap, 1),
         ]
         delay = 0.1
 

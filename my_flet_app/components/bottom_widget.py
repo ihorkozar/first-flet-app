@@ -6,15 +6,15 @@ from components.stepper_button import StepperButton
 from flet_core import MainAxisAlignment, TextAlign
 from utils.app_constants import *
 
-from my_flet_app.utils.app_constants import white
+from utils.app_constants import white
 
 
 def should_rebuild_count(prev_state: TeapotState, new_state: TeapotState) -> bool:
     return prev_state.count != new_state.count
 
 
-def should_rebuild_count_and_cup(prev_state: TeapotState, new_state: TeapotState) -> bool:
-    return prev_state.count != new_state.count or prev_state.cup != new_state.cup
+def should_rebuild_count_and_leaf(prev_state: TeapotState, new_state: TeapotState) -> bool:
+    return prev_state.count != new_state.count or prev_state.leaf != new_state.leaf
 
 
 def should_rebuild_iteration_time(prev_state: TeapotState, new_state: TeapotState) -> bool:
@@ -35,12 +35,12 @@ def bottom_widget(page: ft.Page):
             TeapotBlocBuilder(
                 control=ft.Container(),
                 bloc=teapot_bloc,
-                build_when=should_rebuild_count_and_cup,
+                build_when=should_rebuild_count_and_leaf,
                 builder=lambda state: ft.OutlinedButton(
                     style=ft.ButtonStyle(
                         shape=ft.RoundedRectangleBorder(radius=ft.BorderRadius(16, 16, 16, 16), ),
                         side=ft.BorderSide(
-                            color=silver if state.cup == 0 else button_color,
+                            color=silver if state.leaf == 0 else button_color,
                             width=1
                         ),
                     ),
